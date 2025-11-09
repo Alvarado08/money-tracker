@@ -11,8 +11,13 @@ class TransactionsProvider with ChangeNotifier {
     ),
     Transaction(
       type: TransactionType.expense,
-      amount: 250.0,
+      amount: -250.0,
       description: 'Groceries',
+    ),
+    Transaction(
+      type: TransactionType.income,
+      amount: 50.0,
+      description: 'Freelance',
     ),
   ];
 
@@ -37,7 +42,7 @@ class TransactionsProvider with ChangeNotifier {
   }
 
   double getBalance() {
-    return getTotalIncome() - getTotalExpense();
+    return getTotalIncome() + getTotalExpense();
   }
 
   void addTransaction(Transaction transaction) {

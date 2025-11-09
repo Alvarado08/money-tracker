@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:money_tracker/controller/transactions_provider.dart';
 import 'package:money_tracker/view/widgets/header_card.dart';
+import 'package:provider/provider.dart';
 
 class HomeHeader extends StatelessWidget {
   const HomeHeader({super.key});
@@ -7,6 +9,14 @@ class HomeHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
+
+    final provider = Provider.of<TransactionsProvider>(context);
+    final balance = provider.getBalance();
+    final totalIncome = provider.getTotalIncome();
+    final totalExpense = provider.getTotalExpense();
+    final formattedBalance = balance < 0
+        ? "-\$${balance.abs().toStringAsFixed(2)}"
+        : "\$${balance.toStringAsFixed(2)}";
 
     return SizedBox(
       width: double.infinity, // Full width of the parent
@@ -25,7 +35,8 @@ class HomeHeader extends StatelessWidget {
             style: textTheme.bodySmall!.copyWith(color: Colors.white),
           ),
           Text(
-            "\$1000.00",
+            // "\$1000.00",
+            formattedBalance,
             style: textTheme.headlineLarge!.copyWith(
               fontWeight: FontWeight.bold,
               color: Colors.white,
@@ -38,8 +49,8 @@ class HomeHeader extends StatelessWidget {
               children: [
                 HeaderCard(
                   textTheme: textTheme,
-                  title: "Income",
-                  amount: 2000.00,
+                  title: "Incomes",
+                  amount: totalIncome,
                   icon: Icon(
                     Icons.attach_money,
                     color: Colors.green.shade700,
@@ -49,7 +60,7 @@ class HomeHeader extends StatelessWidget {
                 HeaderCard(
                   textTheme: textTheme,
                   title: "Expenses",
-                  amount: -1000.00,
+                  amount: totalExpense,
                   icon: Icon(
                     Icons.money_off,
                     color: Colors.red.shade700,

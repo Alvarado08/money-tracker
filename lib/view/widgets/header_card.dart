@@ -16,6 +16,9 @@ class HeaderCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final formattedAmount = amount < 0
+        ? "-\$${amount.abs().toStringAsFixed(2)}"
+        : "\$${amount.toStringAsFixed(2)}";
     return Expanded(
       child: Card(
         color: Colors.white,
@@ -38,7 +41,7 @@ class HeaderCard extends StatelessWidget {
                 ],
               ),
               SizedBox(height: 5),
-              Text("\$ $amount", style: textTheme.titleLarge!),
+              Text(formattedAmount, style: textTheme.titleLarge!),
             ],
           ),
         ),

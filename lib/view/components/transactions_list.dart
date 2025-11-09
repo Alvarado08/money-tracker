@@ -32,7 +32,7 @@ class TransactionsList extends StatelessWidget {
               trailing: Text(
                 type == "Income"
                     ? '+\$${transaction.amount.toStringAsFixed(2)}'
-                    : '-\$${transaction.amount.toStringAsFixed(2)}',
+                    : '-\$${transaction.amount.abs().toStringAsFixed(2)}',
               ),
             );
           },
