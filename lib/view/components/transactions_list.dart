@@ -29,30 +29,37 @@ class TransactionsList extends StatelessWidget {
               ),
               title: Text(transaction.description),
               subtitle: Text(type),
-              trailing: Text(
-                type == "Income"
-                    ? '+\$${transaction.amount.toStringAsFixed(2)}'
-                    : '-\$${transaction.amount.abs().toStringAsFixed(2)}',
+              trailing: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    transaction.type == TransactionType.expense
+                        ? "-\$${transaction.amount.abs().toStringAsFixed(2)}"
+                        : "\$${transaction.amount.toStringAsFixed(2)}",
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      IconButton(
+                        icon: Icon(Icons.edit, color: Colors.blue),
+                        onPressed: () {},
+                      ),
+                      IconButton(
+                        icon: Icon(Icons.delete, color: Colors.red),
+                        onPressed: () {
+                          Provider.of<TransactionsProvider>(
+                            context,
+                            listen: false,
+                          ).deleteTransaction(transaction);
+                        },
+                      ),
+                    ],
+                  ),
+                ],
               ),
             );
           },
         ),
-        // child: ListView(
-        //   children: const [
-        //     ListTile(
-        //       leading: Icon(Icons.attach_money, color: Colors.green),
-        //       title: Text('Income'),
-        //       subtitle: Text('Salary'),
-        //       trailing: Text('\$100.00'),
-        //     ),
-        //     ListTile(
-        //       leading: Icon(Icons.money_off, color: Colors.red),
-        //       title: Text('Expense'),
-        //       subtitle: Text('Groceries'),
-        //       trailing: Text('-\$250.00'),
-        //     ),
-        //   ],
-        // ),
       ),
     );
   }

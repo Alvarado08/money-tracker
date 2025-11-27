@@ -49,4 +49,20 @@ class TransactionsProvider with ChangeNotifier {
     _transactions.add(transaction);
     notifyListeners();
   }
+
+  void updateTransaction(
+    Transaction oldTransaction,
+    Transaction newTransaction,
+  ) {
+    final index = _transactions.indexOf(oldTransaction);
+    if (index != -1) {
+      _transactions[index] = newTransaction;
+      notifyListeners();
+    }
+  }
+
+  void deleteTransaction(Transaction transaction) {
+    _transactions.remove(transaction);
+    notifyListeners();
+  }
 }
