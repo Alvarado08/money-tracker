@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:money_tracker/controller/transactions_provider.dart';
 import 'package:money_tracker/model/transaction.dart';
+import 'package:money_tracker/view/components/edit_transaction_bottom_sheet.dart';
 import 'package:provider/provider.dart';
 
 class TransactionsList extends StatelessWidget {
@@ -42,7 +43,17 @@ class TransactionsList extends StatelessWidget {
                     children: [
                       IconButton(
                         icon: Icon(Icons.edit, color: Colors.blue),
-                        onPressed: () {},
+                        onPressed: () {
+                          showModalBottomSheet(
+                            isScrollControlled: true,
+                            context: context,
+                            builder: (context) {
+                              return EditTransactionBottomSheet(
+                                oldTransaction: transaction,
+                              );
+                            },
+                          );
+                        },
                       ),
                       IconButton(
                         icon: Icon(Icons.delete, color: Colors.red),
