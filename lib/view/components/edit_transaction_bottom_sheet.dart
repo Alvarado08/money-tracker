@@ -17,18 +17,44 @@ class EditTransactionBottomSheet extends StatefulWidget {
 
 class _EditTransactionBottomSheetState
     extends State<EditTransactionBottomSheet> {
+  late final TextEditingController amountFieldController;
+  late final TextEditingController descriptionFieldController;
+
   int? typeIndex;
   late TransactionType type;
   late double amount = 0;
   late String description;
+
+  void _onAmountChanged() {
+    final cleaned = amountFieldController.text
+        .replaceAll('\$', '')
+        .replaceAll(',', '');
+    final parsed = double.tryParse(cleaned) ?? 0.0;
+    if (parsed != amount) {
+      setState(() => amount = parsed);
+    }
+  }
 
   @override
   void initState() {
     super.initState();
     type = widget.oldTransaction.type;
     typeIndex = (type == TransactionType.income) ? 0 : 1;
-    amount = widget.oldTransaction.amount.abs();
-    description = widget.oldTransaction.description;
+    amountFieldController = TextEditingController(
+      text: "\$${widget.oldTransaction.amount.abs().toStringAsFixed(2)}",
+    );
+    descriptionFieldController = TextEditingController(
+      text: widget.oldTransaction.description,
+    );
+    amountFieldController.addListener(_onAmountChanged);
+  }
+
+  @override
+  void dispose() {
+    amountFieldController.removeListener(_onAmountChanged);
+    amountFieldController.dispose();
+    descriptionFieldController.dispose();
+    super.dispose();
   }
 
   @override
@@ -75,9 +101,7 @@ class _EditTransactionBottomSheetState
               ),
             ),
             TextField(
-              controller: TextEditingController(
-                text: "\$${amount.toStringAsFixed(2)}",
-              ),
+              controller: amountFieldController,
               inputFormatters: [
                 CurrencyTextInputFormatter.currency(locale: 'en', symbol: '\$'),
               ],
@@ -88,14 +112,6 @@ class _EditTransactionBottomSheetState
                 hintStyle: TextStyle(color: Colors.grey.shade400),
               ),
               autofocus: true,
-              onChanged: (value) {
-                final valueWithoutSymbol = value
-                    .replaceAll('\$', '')
-                    .replaceAll(',', '');
-                if (valueWithoutSymbol.isNotEmpty) {
-                  amount = double.parse(valueWithoutSymbol);
-                }
-              },
             ),
             SizedBox(height: 20),
             Text(
@@ -105,7 +121,7 @@ class _EditTransactionBottomSheetState
               ),
             ),
             TextField(
-              controller: TextEditingController(text: description),
+              controller: descriptionFieldController,
               textAlign: TextAlign.center,
               keyboardType: TextInputType.text,
               decoration: InputDecoration.collapsed(
@@ -113,9 +129,6 @@ class _EditTransactionBottomSheetState
                 hintStyle: TextStyle(color: Colors.grey.shade400),
               ),
               autofocus: true,
-              onChanged: (value) {
-                description = value;
-              },
             ),
             SizedBox(height: 30),
             SizedBox(
@@ -125,7 +138,7 @@ class _EditTransactionBottomSheetState
                   final newTransaction = Transaction(
                     type: type,
                     amount: type == TransactionType.expense ? -amount : amount,
-                    description: description,
+                    description: descriptionFieldController.text,
                   );
                   Provider.of<TransactionsProvider>(
                     context,
