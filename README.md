@@ -1,16 +1,41 @@
-# money_tracker
+# Money Tracker
 
-A new Flutter project.
+![Money Tracker Demo](MoneyTrackerDemo.gif)
 
-## Getting Started
+![Flutter](https://img.shields.io/badge/Flutter-02569B?style=for-the-badge&logo=flutter&logoColor=white)
+![Dart](https://img.shields.io/badge/Dart-0175C2?style=for-the-badge&logo=dart&logoColor=white)
+![Provider](https://img.shields.io/badge/Provider-FF6B6B?style=for-the-badge)
 
-This project is a starting point for a Flutter application.
+## Description
 
-A few resources to get you started if this is your first Flutter project:
+A clean, powerful way to manage your personal finances. Enjoy seamless transaction management, income/expense calculations, and live currency formatting.
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+## Features
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+- Add/Edit/Delete transactions
+- Real-time balance calculations  
+- Currency formatting
+- Income vs Expense tracking
+
+## Technical Highlights
+
+- **State Management**: Provider pattern with ChangeNotifier
+- **Real-time Updates**: Live currency formatting and calculations
+- **Architecture**: Separation of concerns (Model-View-Controller)
+
+## Technologies Used
+
+### Framework & Language
+
+- **Flutter** - Framework for cross-platform mobile development
+- **Dart** - Programming language
+
+### Dependencies
+
+- **provider** - State management solution
+- **currency_text_input_formatter** - Currency input formatting
+
+### Development Dependencies
+
+- **flutter_test** - Testing framework
+- **flutter_lints** - Code analysis and linting
